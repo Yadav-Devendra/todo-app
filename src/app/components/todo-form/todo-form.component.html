@@ -1,8 +1,6 @@
-<!-- src/app/components/todo-form/todo-form.component.html -->
-<form (ngSubmit)="addTodo()">
-  <mat-form-field appearance="fill">
-    <mat-label>To-Do Title</mat-label>
-    <input matInput [(ngModel)]="todo.title" name="title" placeholder="Enter task" required />
+<form (submit)="addTodo()">
+  <mat-form-field>
+    <input matInput placeholder="New To-Do" [(ngModel)]="todo.title" name="title">
   </mat-form-field>
   <button mat-raised-button color="primary" type="submit">Add</button>
 </form>

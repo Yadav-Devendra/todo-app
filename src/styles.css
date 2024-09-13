@@ -11,3 +11,8 @@ mat-list {
   max-width: 600px;
   margin: 0 auto;
 }
+
+button {
+  display: block; /* Ensure the button is not set to display: none; */
+  margin: 16px auto;
+}

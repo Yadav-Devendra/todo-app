@@ -1,6 +1,10 @@
-<!-- src/app/app.component.html -->
-<div style="text-align:center">
-  <h1>To-Do App</h1>
-  <app-todo-form></app-todo-form>
-  <app-todo-list></app-todo-list>
-</div>
+<!-- Button to toggle the form visibility -->
+<button mat-raised-button color="primary" (click)="toggleForm()">
+  {{ showForm ? 'Hide Form' : 'Show Form' }}
+</button>
+
+<!-- Conditionally show the TodoFormComponent based on showForm -->
+<app-todo-form *ngIf="showForm"></app-todo-form>
+
+<!-- Add your TodoListComponent here -->
+<app-todo-list></app-todo-list>

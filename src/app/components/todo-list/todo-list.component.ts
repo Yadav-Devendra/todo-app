@@ -1,8 +1,6 @@
-// src/app/components/todo-list/todo-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { TodoService } from '../../services/todo.service';
 import { Todo } from '../../models/todo.model';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-todo-list',
@@ -11,35 +9,34 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class TodoListComponent implements OnInit {
   todos: Todo[] = [];
+  selectedTodo: Todo | null = null;
 
-  constructor(private todoService: TodoService, private snackBar: MatSnackBar) { }
+  constructor(private todoService: TodoService) {}
 
   ngOnInit(): void {
-    this.loadTodos();
+    this.todoService.todos$.subscribe(todos => {
+      this.todos = todos;
+    });
   }
 
-  loadTodos(): void {
-    this.todoService.getTodos().subscribe(todos => this.todos = todos);
+  deleteTodo(todoId: number): void {
+    this.todoService.deleteTodo(todoId).subscribe();
   }
 
-  delete(todo: Todo): void {
-    if (todo.id) {
-      this.todoService.deleteTodo(todo.id).subscribe(() => {
-        this.todos = this.todos.filter(t => t !== todo);
-        this.snackBar.open('To-Do deleted!', 'Close', { duration: 2000 });
+  toggleTodoCompletion(todo: Todo): void {
+    todo.completed = !todo.completed;
+    this.todoService.updateTodo(todo).subscribe();
+  }
+
+  editTodo(todo: Todo): void {
+    this.selectedTodo = { ...todo }; // Clone the todo for editing
+  }
+
+  updateTodo(): void {
+    if (this.selectedTodo) {
+      this.todoService.updateTodo(this.selectedTodo).subscribe(() => {
+        this.selectedTodo = null; // Clear selected todo after update
       });
-    }
-  }
-
-  toggleCompleted(todo: Todo): void {
-    if (todo.id) {
-      this.todoService.updateTodo(todo.id, { ...todo, completed: !todo.completed })
-        .subscribe(updatedTodo => {
-          const index = this.todos.findIndex(t => t.id === updatedTodo.id);
-          if (index !== -1) {
-            this.todos[index] = updatedTodo;
-          }
-        });
     }
   }
 }

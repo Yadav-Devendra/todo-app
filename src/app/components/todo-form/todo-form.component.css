@@ -1,8 +1,16 @@
-/* src/app/components/todo-form/todo-form.component.css */
+.todo-form {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
 mat-form-field {
   width: 100%;
 }
 
 button {
-  margin-top: 16px;
+  margin-top: 10px;
 }
