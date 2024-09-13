@@ -1,0 +1,10 @@
+/* src/app/components/todo-list/todo-list.component.css */
+mat-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+mat-icon {
+  cursor: pointer;
+}
