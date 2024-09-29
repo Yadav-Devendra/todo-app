@@ -1,0 +1,44 @@
+services:
+  angular-app:
+    image: devendrayadav02/todo-angular-app:latest
+    ports:
+      - "4200:80"
+    depends_on:
+      - spring-boot-app
+    environment:
+      - ANGULAR_APP_SPRING_BOOT_URL=http://spring-boot-app:8080/api/todos
+    networks:
+      - my-network
+
+  spring-boot-app:
+    image: devendrayadav02/todo-spring-boot-app:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/mydatabase
+      - SPRING_DATASOURCE_USERNAME=myuser
+      - SPRING_DATASOURCE_PASSWORD=mypassword
+    networks:
+      - my-network
+
+  postgres:
+    image: postgres:17.0-alpine3.20
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=myuser
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - my-network
+
+volumes:
+  postgres-data:
+
+networks:
+  my-network:
+    driver: bridge

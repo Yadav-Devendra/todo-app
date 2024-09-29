@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators'; // <-- Import tap here
 import { Todo } from '../models/todo.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
-  private apiUrl = 'http://localhost:8080/api/todos'; // Update with your actual API URL
+  private springBootUrl = environment.springBootUrl;
+  private apiUrl = this.springBootUrl; // Update with your actual API URL
   private todosSubject = new BehaviorSubject<Todo[]>([]);
   todos$ = this.todosSubject.asObservable();
 
